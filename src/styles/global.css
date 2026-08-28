@@ -83,6 +83,8 @@ body {
   background: none;
   margin-bottom: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+   flex-shrink: 0;
+  
 }
 
 .categories-scroll {
@@ -113,7 +115,7 @@ body {
   overflow: hidden;
   background-size: cover;
   background-position: center;
-  flex-shrink: 0;
+ 
 }
 
 .category-chip.has-image {
