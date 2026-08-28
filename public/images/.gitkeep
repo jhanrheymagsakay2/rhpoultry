@@ -1,0 +1,2 @@
+Drop your logo and category photos in this folder, then reference
+them in src/theme.js as '/images/your-file.png'.
