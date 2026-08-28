@@ -116,6 +116,8 @@ body {
   background-size: cover;
   background-position: center;
   flex: 0 0 auto;
+  width: max-content;
+  min-width: max-content;
  
 }
 
@@ -138,6 +140,8 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  width: max-content;
 }
 
 .category-chip.has-image .category-chip-label {
