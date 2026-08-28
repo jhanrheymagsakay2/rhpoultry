@@ -115,6 +115,7 @@ body {
   overflow: hidden;
   background-size: cover;
   background-position: center;
+  flex: 0 0 auto;
  
 }
 
