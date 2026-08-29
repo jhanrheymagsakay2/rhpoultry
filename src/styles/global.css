@@ -77,14 +77,55 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.search-box-wrap { position: relative; display: flex; align-items: center; }
+
+.search-box-wrap .search-box { padding-right: 50px; }
+
+.mic-btn {
+  position: absolute;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mic-btn.mic-listening {
+  background: rgba(244, 67, 54, 0.12);
+  animation: micPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(244, 67, 54, 0); }
+}
+
+.mic-permission-hint {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #fff3e0;
+  border: 2px solid var(--color-warning, #ff9800);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e65100;
+  cursor: pointer;
+  text-align: left;
+}
+
 /* CATEGORY CHIPS */
 .categories-container {
   padding: 15px 0;
   background: none;
   margin-bottom: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-   flex-shrink: 0;
-  
 }
 
 .categories-scroll {
@@ -115,10 +156,7 @@ body {
   overflow: hidden;
   background-size: cover;
   background-position: center;
-  flex: 0 0 auto;
-  width: max-content;
-  min-width: max-content;
- 
+  flex-shrink: 0;
 }
 
 .category-chip.has-image {
@@ -140,8 +178,6 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
-  width: max-content;
 }
 
 .category-chip.has-image .category-chip-label {

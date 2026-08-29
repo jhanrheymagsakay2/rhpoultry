@@ -1,10 +1,20 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import CategoryChips from '../components/CategoryChips'
 import ProductCard from '../components/ProductCard'
+import { useContinuousVoiceSearch } from '../hooks/useContinuousVoiceSearch'
+import { fuzzyMatch } from '../utils/fuzzyMatch'
 
 export default function HomePage({ products }) {
   const [activeCategory, setActiveCategory] = useState('all')
   const [search, setSearch] = useState('')
+  const [voiceEnabled, setVoiceEnabled] = useState(true)
+
+  const handleVoiceResult = useCallback((text) => setSearch(text), [])
+
+  const { listening, supported, needsPermissionTap, requestPermission } = useContinuousVoiceSearch({
+    onResult: handleVoiceResult,
+    enabled: voiceEnabled,
+  })
 
   const categories = useMemo(
     () => [...new Set(products.map((p) => p.category))].sort(),
@@ -14,20 +24,37 @@ export default function HomePage({ products }) {
   const filtered = useMemo(() => {
     let list = products
     if (activeCategory !== 'all') list = list.filter((p) => p.category === activeCategory)
-    if (search) list = list.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
+    if (search) list = list.filter((p) => fuzzyMatch(p.name, search))
     return list
   }, [products, activeCategory, search])
 
   return (
     <div className="page active">
       <div className="search-container">
-        <input
-          type="text"
-          className="search-box"
-          placeholder="🔍 Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="search-box-wrap">
+          <input
+            type="text"
+            className="search-box"
+            placeholder="🔍 Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {supported && (
+            <button
+              type="button"
+              className={`mic-btn ${listening ? 'mic-listening' : ''}`}
+              title={voiceEnabled ? 'Voice search on — tap to mute' : 'Tap to enable voice search'}
+              onClick={() => setVoiceEnabled((v) => !v)}
+            >
+              {voiceEnabled ? '🎤' : '🔇'}
+            </button>
+          )}
+        </div>
+        {needsPermissionTap && (
+          <button type="button" className="mic-permission-hint" onClick={requestPermission}>
+            🎤 Tap once to enable voice search (only needed the first time)
+          </button>
+        )}
       </div>
 
       <div className="categories-container">
